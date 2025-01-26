@@ -1348,6 +1348,24 @@ namespace {
         v->promotionPieceTypes[BLACK] = piece_set(ARCHBISHOP) | CHANCELLOR | QUEEN | ROOK | BISHOP | KNIGHT;
         return v;
     }
+    // Capablanca chess on 10x10 board
+    /*This was Capablanca's first version of his variant, played on a 10x10 board, before he decided on a 
+    10x8 board and a different starting array.*/
+    Variant* capablanca10x10_variant() {
+    	Variant* v = chess_variant_base()->init();
+    	v->pieceToCharTable = "PNBRQ..AC............Kpnbrq..ac............k";
+    	v->maxRank = RANK_10;
+    	v->maxFile = FILE_J;
+    	v->castlingKingsideFile = FILE_I;
+    	v->castlingQueensideFile = FILE_C;
+    	v->add_piece(ARCHBISHOP, 'a');
+    	v->add_piece(CHANCELLOR, 'c');
+    	v->startFen = "rnbaqkcbnr/pppppppppp/10/10/10/10/10/10/PPPPPPPPPP/RNBAQKCBNR w KQkq - 0 1";
+    	v->promotionPieceTypes[WHITE] = piece_set(ARCHBISHOP) | CHANCELLOR | QUEEN | ROOK | BISHOP | KNIGHT;
+    	v->promotionPieceTypes[BLACK] = piece_set(ARCHBISHOP) | CHANCELLOR | QUEEN | ROOK | BISHOP | KNIGHT;
+    	v->doubleStepRegion[BLACK] = Rank9BB;
+    	return v;
+    }
     // Capahouse
     // Capablanca chess with crazyhouse-style piece drops
     // https://www.pychess.org/variant/capahouse
@@ -1945,6 +1963,7 @@ void VariantMap::init() {
     add("yarishogi", yarishogi_variant());
     add("okisakishogi", okisakishogi_variant());
     add("capablanca", capablanca_variant());
+    add("cap100", capablanca10x10_variant());
     add("capahouse", capahouse_variant());
     add("caparandom", caparandom_variant());
     add("gothic", gothic_variant());
