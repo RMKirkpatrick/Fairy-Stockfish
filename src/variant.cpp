@@ -1519,6 +1519,29 @@ namespace {
         v->stalemateValue = -VALUE_MATE;
         return v;
     }
+    //Courier chess, starting at initial array (i.e., without the "mandatory" opening pawn moves):
+    Variant* courier2_variant() {
+    	Variant* v = chess_variant_base()->init();
+    	v->maxRank = RANK_8;
+    	v->maxFile = FILE_L;
+    	v->remove_piece(QUEEN);
+    	v->add_piece(ALFIL, 'e');
+    	v->add_piece(FERS, 'f');
+    	v->add_piece(COMMONER, 'm');
+    	v->add_piece(WAZIR, 'w');
+    	v->startFen = "rnebmkfwbenr/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/RNEBMKFWBENR w - - 0 1";
+    	v->promotionPieceTypes[WHITE] = piece_set(FERS);
+    	v->promotionPieceTypes[BLACK] = piece_set(FERS);
+    	v->doubleStep = false;
+    	v->castling = false;
+    	v->extinctionValue = -VALUE_MATE;
+    	v->extinctionClaim = true;
+    	v->extinctionPieceTypes = piece_set(ALL_PIECES);
+    	v->extinctionPieceCount = 1;
+    	v->extinctionOpponentPieceCount = 2;
+    	v->stalemateValue = -VALUE_MATE;
+    	return v;
+    }
     // Grand chess
     // 10x10 variant with chancellors and archbishops
     // https://en.wikipedia.org/wiki/Grand_chess
@@ -1933,6 +1956,7 @@ void VariantMap::init() {
     add("gustav3", gustav3_variant());
     add("jesonmor", jesonmor_variant());
     add("courier", courier_variant());
+    add("currier", courier2_variant());
     add("grand", grand_variant());
     add("opulent", opulent_variant());
     add("tencubed", tencubed_variant());
