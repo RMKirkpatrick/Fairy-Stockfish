@@ -522,6 +522,17 @@ namespace {
         v->mutuallyImmuneTypes = piece_set(COMMONER);
         return v;
     }
+	// https://en.wikipedia.org/wiki/Atomic_chess
+	Variant* atomiczh_variant() {
+		Variant* v = nocheckatomic_variant()->init();
+		v->extinctionPseudoRoyal = true;
+		v->dropChecks = false;
+		v->pieceDrops = true;
+		v->capturesToHand = true;
+		v->pocketSize = 6;
+		v->castling = false;
+		return v;
+	}
 
 #ifdef ALLVARS
     // Duck chess
@@ -1908,6 +1919,7 @@ void VariantMap::init() {
     add("nocheckatomic", nocheckatomic_variant());
     add("atomic", atomic_variant());
     add("atomar", atomar_variant());
+    add("azh", atomiczh_variant());
     add("isolation", isolation_variant());
     add("isolation7x7", isolation7x7_variant());
     add("snailtrail", snailtrail_variant());
