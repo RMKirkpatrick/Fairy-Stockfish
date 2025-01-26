@@ -577,6 +577,30 @@ namespace {
         v->flagRegion[WHITE] = Rank8BB;
         return v;
     }
+    
+    Variant* wolves_and_sheep_variant() { //alternate name for fox-and-hounds
+    	Variant* v = chess_variant_base()->init();
+    	v->reset_pieces();
+    	v->add_piece(CUSTOM_PIECE_1, 'w', "mfF"); //Wolf
+    	v->add_piece(CUSTOM_PIECE_2, 's', "mF"); //Sheep
+    	v->startFen = "1w1w1w1w/8/8/8/8/8/8/4S3 w - - 0 1";
+    	v->stalemateValue = -VALUE_MATE;
+    	v->flagPiece[WHITE] = CUSTOM_PIECE_2;
+    	v->flagRegion[WHITE] = Rank8BB;
+    	return v;
+    }
+    
+    Variant* white_wolves_black_sheep_variant() { //color-swapped wolves_and_sheep
+    	Variant* v = chess_variant_base()->init();
+    	v->reset_pieces();
+    	v->add_piece(CUSTOM_PIECE_1, 'w', "mfF"); //Wolf
+    	v->add_piece(CUSTOM_PIECE_2, 's', "mF"); //Sheep
+    	v->startFen = "4s3/8/8/8/8/8/8/1W1W1W1W w - - 0 1";
+    	v->stalemateValue = -VALUE_MATE;
+    	v->flagPiece[BLACK] = CUSTOM_PIECE_2;
+    	v->flagRegion[BLACK] = Rank1BB;
+    	return v;
+    }
 
     // Three-check chess
     // Check the king three times to win
@@ -1827,7 +1851,9 @@ void VariantMap::init() {
     add("isolation", isolation_variant());
     add("isolation7x7", isolation7x7_variant());
     add("snailtrail", snailtrail_variant());
-    add("fox-and-hounds", fox_and_hounds_variant());
+    add("afox-and-hounds", fox_and_hounds_variant());
+    add("wolves_and_sheep", wolves_and_sheep_variant());
+    add("white-wolves-black-sheep", white_wolves_black_sheep_variant());
 #ifdef ALLVARS
     add("duck", duck_variant());
 #endif
