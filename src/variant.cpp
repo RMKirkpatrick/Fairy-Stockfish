@@ -357,6 +357,24 @@ namespace {
         v->promotionPieceTypes[BLACK] = piece_set(COMMONER) | QUEEN | ROOK | BISHOP;
         return v;
     }
+    /* CMOKOBYK
+     * Pronounced "smokovook" (pretend it's written in Cyrillic!).
+     * Stands for: "CheckMate Opponent's King Or Bare Your King".
+     * Brainchild of Robert M. Kirkpatrick, created & playtested 2023 - 2025; 
+     * but, it turns out not to be a novel game,
+     * having previously been described by Pritchard (2007) as "Les Echecs Battu-Battant",
+     * dating back to 1951.
+     */
+    Variant* cmokobyk_variant() {
+        Variant* v = chess_variant_base()->init();
+        v->checkmateValue = -VALUE_MATE;
+        v->stalemateValue = VALUE_DRAW;
+        v->extinctionValue = VALUE_MATE;
+        v->extinctionPieceTypes = piece_set(ALL_PIECES);
+        v->extinctionPieceCount = 1;
+        v->mustCapture = true;
+        return v;
+    }
     // Losers chess
     // https://www.chessclub.com/help/Wild17
     Variant* losers_variant() {
@@ -1835,6 +1853,7 @@ void VariantMap::init() {
     add("kingofthehill", kingofthehill_variant());
     add("racingkings", racingkings_variant());
     add("knightmate", knightmate_variant());
+    add("cmokobyk", cmokobyk_variant());
     add("losers", losers_variant());
     add("giveaway", giveaway_variant());
     add("antichess", antichess_variant());
