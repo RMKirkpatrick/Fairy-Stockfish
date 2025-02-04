@@ -108,11 +108,12 @@ struct Variant {
   bool gating = false;
   WallingRule wallingRule = NO_WALLING;
   Bitboard wallingRegion[COLOR_NB] = {AllSquares, AllSquares};
+  bool wallOrMove = false;
   bool seirawanGating = false;
   bool cambodianMoves = false;
   Bitboard diagonalLines = 0;
-  bool pass = false;
-  bool passOnStalemate = false;
+  bool pass[COLOR_NB] = {false, false};
+  bool passOnStalemate[COLOR_NB] = {false, false};
   bool makpongRule = false;
   bool flyingGeneral = false;
   Rank soldierPromotionRank = RANK_1;
@@ -149,13 +150,17 @@ struct Variant {
   bool flagPieceSafe = false;
   bool checkCounting = false;
   int connectN = 0;
+  PieceSet connectPieceTypes = ~NO_PIECE_SET;
   bool connectHorizontal = true;
   bool connectVertical = true;
   bool connectDiagonal = true;
   Bitboard connectRegion1[COLOR_NB] = {};
   Bitboard connectRegion2[COLOR_NB] = {};
   int connectNxN = 0;
+  int collinearN = 0;
+  Value connectValue = VALUE_MATE;
   MaterialCounting materialCounting = NO_MATERIAL_COUNTING;
+  bool adjudicateFullBoard = false;
   CountingRule countingRule = NO_COUNTING;
   CastlingRights castlingWins = NO_CASTLING;
 
@@ -170,10 +175,10 @@ struct Variant {
   int pieceHandIndex[COLOR_NB][PIECE_NB];
   int kingSquareIndex[SQUARE_NB];
   int nnueMaxPieces;
-  bool endgameEval = false;
+  EndgameEval endgameEval = EG_EVAL_CHESS;
   bool shogiStylePromotions = false;
   std::vector<Direction> connect_directions;
-
+  PieceSet connectPieceTypesTrimmed = ~NO_PIECE_SET;
   void add_piece(PieceType pt, char c, std::string betza = "", char c2 = ' ') {
       // Avoid ambiguous definition by removing existing piece with same letter
       size_t idx;
@@ -217,6 +222,7 @@ struct Variant {
   // Reset values that always need to be redefined
   Variant* init() {
       nnueAlias = "";
+      endgameEval = EG_EVAL_CHESS;
       return this;
   }
 
