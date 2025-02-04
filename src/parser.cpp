@@ -472,11 +472,18 @@ Variant* VariantParser<DoCheck>::parse(Variant* v) {
     parse_attribute("wallingRegionBlack", v->wallingRegion[BLACK]);
     parse_attribute("wallingRegion", v->wallingRegion[WHITE]);
     parse_attribute("wallingRegion", v->wallingRegion[BLACK]);
+    parse_attribute("wallOrMove", v->wallOrMove);
     parse_attribute("seirawanGating", v->seirawanGating);
     parse_attribute("cambodianMoves", v->cambodianMoves);
     parse_attribute("diagonalLines", v->diagonalLines);
-    parse_attribute("pass", v->pass);
-    parse_attribute("passOnStalemate", v->passOnStalemate);
+    parse_attribute("pass", v->pass[WHITE]);
+    parse_attribute("pass", v->pass[BLACK]);
+    parse_attribute("passWhite", v->pass[WHITE]);
+    parse_attribute("passBlack", v->pass[BLACK]);
+    parse_attribute("passOnStalemate", v->passOnStalemate[WHITE]);
+    parse_attribute("passOnStalemate", v->passOnStalemate[BLACK]);
+    parse_attribute("passOnStalemateWhite", v->passOnStalemate[WHITE]);
+    parse_attribute("passOnStalemateBlack", v->passOnStalemate[BLACK]);
     parse_attribute("makpongRule", v->makpongRule);
     parse_attribute("flyingGeneral", v->flyingGeneral);
     parse_attribute("soldierPromotionRank", v->soldierPromotionRank);
@@ -521,6 +528,7 @@ Variant* VariantParser<DoCheck>::parse(Variant* v) {
     parse_attribute("flagPieceSafe", v->flagPieceSafe);
     parse_attribute("checkCounting", v->checkCounting);
     parse_attribute("connectN", v->connectN);
+    parse_attribute("connectPieceTypes", v->connectPieceTypes, v->pieceToChar);
     parse_attribute("connectHorizontal", v->connectHorizontal);
     parse_attribute("connectVertical", v->connectVertical);
     parse_attribute("connectDiagonal", v->connectDiagonal);
@@ -529,14 +537,17 @@ Variant* VariantParser<DoCheck>::parse(Variant* v) {
     parse_attribute("connectRegion1Black", v->connectRegion1[BLACK]);
     parse_attribute("connectRegion2Black", v->connectRegion2[BLACK]);
     parse_attribute("connectNxN", v->connectNxN);
+    parse_attribute("collinearN", v->collinearN);
+    parse_attribute("connectValue", v->connectValue);
     parse_attribute("materialCounting", v->materialCounting);
+    parse_attribute("adjudicateFullBoard", v->adjudicateFullBoard);
     parse_attribute("countingRule", v->countingRule);
     parse_attribute("castlingWins", v->castlingWins);
     
     // Report invalid options
     if (DoCheck)
     {
-        const std::set<std::string>& parsedKeys = config.get_comsumed_keys();
+        const std::set<std::string>& parsedKeys = config.get_consumed_keys();
         for (const auto& it : config)
             if (parsedKeys.find(it.first) == parsedKeys.end())
                 std::cerr << "Invalid option: " << it.first << std::endl;
