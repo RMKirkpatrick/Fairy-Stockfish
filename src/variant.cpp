@@ -388,6 +388,16 @@ namespace {
         v->endgameEval = EG_EVAL_MISERE;
         return v;
     }
+
+    // Misere chess
+    // Get checkmated to win.
+    // Variant used to run some selfmate analysis http://www.kotesovec.cz/gustav/gustav_alybadix.htm
+    Variant* misere_variant() {
+        Variant* v = chess_variant_base()->init();
+        v->checkmateValue = VALUE_MATE;
+        v->endgameEval = EG_EVAL_MISERE;
+        return v;
+    }
     // Losers chess
     // https://www.chessclub.com/help/Wild17
     Variant* losers_variant() {
