@@ -378,6 +378,8 @@ namespace {
         v->extinctionPieceTypes = piece_set(ALL_PIECES);
         v->extinctionPieceCount = 1;
         v->mustCapture = true;
+        return v;
+    }
 
     // Misere chess
     // Get checkmated to win.
