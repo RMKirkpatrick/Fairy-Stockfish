@@ -497,6 +497,15 @@ namespace {
         v->extinctionPieceTypes = piece_set(ALL_PIECES);
         return v;
     }
+	// Charge of the light brigade;
+	// Implemented for compatibility with pychess.py:
+	Variant* lightbrigade_variant() {
+		Variant* v = chess_variant_base()->init();
+		v->startFen = "nnnnknnn/pppppppp/8/8/8/8/PPPPPPPP/1Q1QK1Q1 w - - 0 1";
+		v->promotionPieceTypes[WHITE] = piece_set(QUEEN);
+		v->promotionPieceTypes[BLACK] = piece_set(KNIGHT);
+		return v;
+	}
     // Petrified
     // Sideways pawns + petrification on capture
     // https://www.chess.com/variants/petrified
@@ -1950,6 +1959,7 @@ void VariantMap::init() {
     add("kinglet", kinglet_variant());
     add("threekings", threekings_variant());
     add("horde", horde_variant());
+    add("light-brigade", lightbrigade_variant());
     add("petrified", petrified_variant());
     add("nocheckatomic", nocheckatomic_variant());
     add("atomic", atomic_variant());
